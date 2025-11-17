@@ -136,8 +136,7 @@ function MainContent() {
               className="text-gray-600 text-lg mb-8 max-w-md mx-auto md:mx-0"
               style={{ fontFamily: 'Satoshi, sans-serif' }}
             >
-              Using your BMI index we calculate whether the dish is suitable
-              for you.
+              Sehat Itu Kebutuhan Bukan Pilihan
             </motion.p>
 
             {/* Selected Category Display */}

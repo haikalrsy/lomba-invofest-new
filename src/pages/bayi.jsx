@@ -16,6 +16,7 @@ import dokter from '../assets/images/dokter.png';
 import nutrisi from '../assets/images/nutrisi.webp';
 import toy from '../assets/images/TOY.webp';
 import ScrollStack, { ScrollStackItem } from '../components/ScrollStack';
+import Carousel from '../components/Carousel';
 
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -1061,7 +1062,16 @@ const BabyHealthLanding = () => {
           />
         </svg>
       </div>
-
+<div style={{ height: '600px', position: 'relative' }}>
+  <Carousel
+    baseWidth={300}
+    autoplay={true}
+    autoplayDelay={3000}
+    pauseOnHover={true}
+    loop={true}
+    round={false}
+  />
+</div>
     </div>
   );
 };

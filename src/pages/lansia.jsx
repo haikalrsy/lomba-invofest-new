@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
@@ -7,16 +8,15 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import Baby1 from '../assets/images/bayi1.png';
-import bayi from '../assets/images/bayi.png';
+import anak from '../assets/images/anak-anak.png';
+import anak1 from '../assets/images/anak.png';
 import dot from '../assets/images/dot.png';
-import kidimage from '../assets/images/bayimmakan.png';
 import chart from '../assets/images/chart.webp';
 import dokter from '../assets/images/dokter.png';
 import nutrisi from '../assets/images/nutrisi.webp';
 import toy from '../assets/images/TOY.webp';
 import ScrollStack, { ScrollStackItem } from '../components/ScrollStack';
-import Carousel from '../components/carouselbayi';
+import Carousel from '../components/carousellansia';
 import platfrom from '../components/platfrom';
 import { Shield, Heart, Activity, Stethoscope, Thermometer, Wind, Baby, AlertCircle, CheckCircle, ArrowRight } from 'lucide-react';
 
@@ -104,25 +104,27 @@ function Model3D({ mousePosition }) {
   );
 }
 
-// === Animated Chart Component ===
+// === Animated Chart Component (Usia 7–10 Tahun) ===
 function AnimatedGrowthChart() {
   const chartRef = useRef(null);
   const [chartData, setChartData] = useState({
-    labels: ['4.3 kg', '5.3 kg', '5.5 kg', '6 kg', '6.6 kg', '6.9 kg', '7.3 kg', '7.9 kg', '8.2 kg', '8.5 kg', '8.8 kg', '9 kg'],
+    labels: ['60 Tahun', '65 Tahun', '70 Tahun', '75 Tahun', '80 Tahun'],
     datasets: [
       {
-        label: 'Tinggi (cm)',
-        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        backgroundColor: 'rgba(190, 18, 60, 0.7)',
-        borderColor: 'rgba(190, 18, 60, 1)',
+        label: 'Tinggi Badan (cm)',
+        data: [0, 0, 0, 0, 0],
+        backgroundColor: '#87ceeb',
+        borderColor: 'rgba(255, 255, 255, 1)',
         borderWidth: 2,
-        borderRadius: 10,
-        barThickness: 35,
+        borderRadius: 8,
+        barThickness: 40,
       },
     ],
   });
 
-  const finalData = [50, 52, 54, 58, 60, 62, 65, 67, 68, 69, 70, 72];
+  // Perkiraan tinggi rata-rata lansia Indonesia (laki-laki & perempuan)
+  // Data disesuaikan dengan tren penurunan tinggi karena penuaan
+  const finalData = [160, 158, 156, 154, 152]; // dalam cm
 
   useEffect(() => {
     const animationDuration = 2000;
@@ -133,16 +135,17 @@ function AnimatedGrowthChart() {
     const interval = setInterval(() => {
       currentStep++;
       const progress = currentStep / steps;
-      const easedProgress = progress < 0.5 
-        ? 4 * progress * progress * progress 
-        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
-      setChartData(prev => ({
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+      setChartData((prev) => ({
         ...prev,
-        datasets: [{
-          ...prev.datasets[0],
-          data: finalData.map(value => value * easedProgress),
-        }],
+        datasets: [
+          {
+            ...prev.datasets[0],
+            data: finalData.map((value) => value * easedProgress),
+          },
+        ],
       }));
 
       if (currentStep >= steps) {
@@ -161,7 +164,7 @@ function AnimatedGrowthChart() {
         display: false,
       },
       tooltip: {
-        backgroundColor: 'rgba(128, 0, 32, 0.9)',
+        backgroundColor: '#87ceeb',
         titleColor: '#fff',
         bodyColor: '#fff',
         borderColor: 'rgba(255, 255, 255, 0.3)',
@@ -169,25 +172,26 @@ function AnimatedGrowthChart() {
         padding: 12,
         displayColors: false,
         callbacks: {
-          label: function(context) {
+          label: function (context) {
             return `Tinggi: ${Math.round(context.parsed.y)} cm`;
-          }
-        }
+          },
+        },
       },
     },
     scales: {
       y: {
-        beginAtZero: true,
-        max: 80,
+        beginAtZero: false,
+        min: 140,
+        max: 170,
         ticks: {
-          color: '#800020',
+          color: '#87ceeb',
           font: {
             size: 11,
             weight: '600',
           },
-          callback: function(value) {
+          callback: function (value) {
             return value + ' cm';
-          }
+          },
         },
         grid: {
           color: 'rgba(128, 0, 32, 0.1)',
@@ -196,9 +200,9 @@ function AnimatedGrowthChart() {
       },
       x: {
         ticks: {
-          color: '#800020',
+          color: '#87ceeb',
           font: {
-            size: 10,
+            size: 11,
             weight: '600',
           },
         },
@@ -219,24 +223,25 @@ function AnimatedGrowthChart() {
   );
 }
 
+
 // === Accordion Item ===
 function AccordionItem({ title, children, isOpen, onClick }) {
   return (
     <motion.div 
-      className="border border-rose-300 rounded-xl sm:rounded-2xl overflow-hidden"
+      className="border border-sky-300 rounded-xl sm:rounded-2xl overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       <motion.button
         onClick={onClick}
-        className="w-full text-left px-4 sm:px-6 py-3 sm:py-4 bg-rose-100 text-rose-900 font-semibold flex justify-between items-center text-sm sm:text-base"
-        whileHover={{ backgroundColor: 'rgba(190, 18, 60, 0.15)' }}
+        className="w-full text-left px-4 sm:px-6 py-3 sm:py-4 bg-sky-100 text-sky-900 font-semibold flex justify-between items-center text-sm sm:text-base"
+        whileHover={{ backgroundColor: '#e7feff' }}
         whileTap={{ scale: 0.98 }}
       >
         {title}
         <motion.span 
-          className="ml-2 text-rose-900 text-lg sm:text-xl"
+          className="ml-2 text-sky-900 text-lg sm:text-xl"
           animate={{ rotate: isOpen ? 45 : 0 }}
           transition={{ duration: 0.3 }}
         >
@@ -252,7 +257,7 @@ function AccordionItem({ title, children, isOpen, onClick }) {
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="px-4 sm:px-6 py-3 sm:py-4 text-rose-900 bg-rose-50 text-sm sm:text-base">
+            <div className="px-4 sm:px-6 py-3 sm:py-4 text-sky-900 bg-sky-50 text-sm sm:text-base">
               {children}
             </div>
           </motion.div>
@@ -320,39 +325,48 @@ const BabyHealthLanding = () => {
     setOpenRedIndex(openRedIndex === index ? null : index);
   };
 
-  const accordionData = [
-    {
-      title: 'Manfaat ASI Eksklusif',
-      content: 'ASI mengandung nutrisi lengkap dan antibodi alami yang membantu sistem imun bayi.',
-    },
-    {
-      title: 'Pentingnya MPASI Tepat Waktu',
-      content: 'MPASI sebaiknya diberikan mulai usia 6 bulan untuk mendukung pertumbuhan optimal.',
-    },
-    {
-      title: 'Cegah Stunting Sejak Dini',
-      content: 'Pastikan asupan gizi seimbang dan pemantauan tumbuh kembang secara rutin.',
-    },
-  ];
+const accordionData = [
+  {
+    title: 'Pentingnya Gizi Seimbang untuk Lansia',
+    content: 'Gizi seimbang membantu menjaga kesehatan tubuh, imunitas, dan fungsi organ lansia agar tetap optimal.',
+  },
+  {
+    title: 'Aktivitas Fisik Ringan untuk Lansia',
+    content: 'Lakukan aktivitas fisik ringan seperti jalan pagi, peregangan, atau senam lansia untuk menjaga kebugaran dan kekuatan otot.',
+  },
+  {
+    title: 'Cegah Malnutrisi pada Lansia',
+    content: 'Pastikan lansia mendapatkan asupan makanan bergizi dengan porsi kecil namun sering untuk mencegah kekurangan gizi.',
+  },
+  {
+    title: 'Perubahan Fisiologis pada Lansia',
+    content: 'Kenali perubahan tubuh akibat penuaan agar perawatan kesehatan dapat disesuaikan dengan kebutuhan lansia.',
+  },
+  {
+    title: 'Membentuk Kebiasaan Sehat di Usia Lanjut',
+    content: 'Biasakan rutinitas sehat seperti tidur cukup, hidrasi terjaga, dan pola makan teratur untuk meningkatkan kualitas hidup lansia.',
+  }
+];
 
   const redAccordionData = [
-    {
-      title: 'Transisi Menu: Dari Bayi ke Anak',
-      content: 'Perlahan kenalkan tekstur dan rasa baru sesuai usia anak untuk mendukung perkembangan motorik oral.',
-    },
-    {
-      title: 'Panduan Menu Seimbang Harian',
-      content: 'Pastikan menu harian mengandung karbohidrat, protein, lemak sehat, serta vitamin dan mineral yang cukup.',
-    },
-    {
-      title: 'Menyusun Rencana Porsi Nutrisi',
-      content: 'Sesuaikan porsi makanan dengan kebutuhan kalori dan aktivitas anak untuk mencegah kelebihan atau kekurangan gizi.',
-    },
-    {
-      title: 'Strategi Makan untuk Kesehatan Jangka Panjang',
-      content: 'Ajarkan kebiasaan makan sehat sejak dini agar anak terbiasa dengan pola makan bergizi dan teratur.',
-    },
-  ];
+  {
+    title: 'Transisi Pola Makan pada Lansia',
+    content: 'Sesuaikan tekstur dan jenis makanan agar mudah dikunyah dan dicerna, terutama bagi lansia yang memiliki masalah gigi atau pencernaan.',
+  },
+  {
+    title: 'Menu Seimbang untuk Lansia Aktif',
+    content: 'Pastikan menu harian mengandung protein berkualitas, serat tinggi, karbohidrat kompleks, dan lemak sehat untuk menjaga energi dan kesehatan.',
+  },
+  {
+    title: 'Porsi Makan yang Tepat untuk Lansia',
+    content: 'Berikan porsi makan kecil namun lebih sering untuk menyesuaikan kebutuhan metabolisme lansia yang menurun.',
+  },
+  {
+    title: 'Kebiasaan Makan Sehat untuk Lansia',
+    content: 'Ajak lansia makan dengan perlahan, hindari makanan tinggi garam/gula, serta ciptakan suasana makan yang nyaman dan tenang.',
+  },
+];
+
 
   // Initialize AOS
   useEffect(() => {
@@ -390,7 +404,7 @@ const BabyHealthLanding = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-rose-50 to-white overflow-hidden" id="bayi">
+    <div className="min-h-screen bg-gradient-to-br from-white via-sky-50 to-white overflow-hidden" id="bayi">
       {/* === SECTION 1: GAYA HIDUP BAYI === */}
       <div className="relative pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 px-4 sm:px-6 md:px-8 lg:ml-7">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
@@ -403,13 +417,13 @@ const BabyHealthLanding = () => {
             data-aos="fade-right"
           >
             <motion.h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-rose-900 leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-sky-400 leading-tight"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               data-aos="fade-up"
             >
-              Buruk Nya Gaya <br /> Hidup Bayi
+              Buruk Nya Gaya <br /> Hidup Anak-Anak
             </motion.h1>
             
             <motion.p
@@ -419,9 +433,7 @@ const BabyHealthLanding = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               data-aos="fade-up"
             >
-              Permasalahan gaya hidup dan kesehatan bayi di Indonesia mencakup
-              stunting pada 30% bayi, rendahnya cakupan ASI eksklusif, dan masih
-              tingginya kasus ISPA yang berkontribusi pada kematian bayi.
+              Di Indonesia, 30% anak mengalami stunting, pola makan tidak seimbang, dan akses ke gizi lengkap masih terbatas. Sanitasi buruk, minimnya edukasi orang tua, dan rendahnya cakupan imunisasi lengkap membuat anak rentan terhadap ISPA, diare, dan gangguan perkembangan kognitif.
             </motion.p>
             
             <motion.p
@@ -436,13 +448,13 @@ const BabyHealthLanding = () => {
             </motion.p>
             
             <motion.button 
-              className="bg-gradient-to-r from-rose-700 to-rose-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full flex items-center space-x-2 sm:space-x-3 text-sm sm:text-base"
+              className="bg-gradient-to-r from-sky-700 to-sky-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full flex items-center space-x-2 sm:space-x-3 text-sm sm:text-base"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
               whileHover={{ 
                 scale: 1.05,
-                boxShadow: "0 20px 40px rgba(190, 18, 60, 0.4)"
+                boxShadow: "0 20px 40px #87ceeb"
               }}
               whileTap={{ scale: 0.95 }}
               data-aos="fade-up"
@@ -465,7 +477,7 @@ const BabyHealthLanding = () => {
           {/* RIGHT IMAGE + BUBBLES */}
           <div className="relative h-[400px] sm:h-[500px] md:h-[600px] order-1 md:order-2" data-aos="fade-left">
             <motion.div 
-              className="absolute top-5 sm:top-10 right-5 sm:right-10 w-40 h-40 sm:w-64 sm:h-64 bg-rose-700 rounded-full opacity-20"
+              className="absolute top-5 sm:top-10 right-5 sm:right-10 w-40 h-40 sm:w-64 sm:h-64 bg-sky-700 rounded-full opacity-20"
               animate={{ 
                 y: [0, -20, 0],
                 scale: [1, 1.05, 1]
@@ -477,7 +489,7 @@ const BabyHealthLanding = () => {
               }}
             />
             <motion.div 
-              className="absolute bottom-10 sm:bottom-20 left-5 sm:left-10 w-32 h-32 sm:w-48 sm:h-48 bg-rose-900 rounded-full opacity-15"
+              className="absolute bottom-10 sm:bottom-20 left-5 sm:left-10 w-32 h-32 sm:w-48 sm:h-48 bg-sky-900 rounded-full opacity-15"
               animate={{ 
                 y: [0, 20, 0],
                 scale: [1, 1.08, 1]
@@ -548,15 +560,15 @@ const BabyHealthLanding = () => {
                 className="relative w-48 h-60 sm:w-64 sm:h-80 md:w-80 md:h-96 rounded-[2rem] sm:rounded-[3rem] shadow-2xl overflow-hidden"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
-                style={{ boxShadow: '0 30px 60px rgba(190, 18, 60, 0.3)' }}
+                style={{ boxShadow: '0 30px 60px #add8e6' }}
               >
                 <img
-                  src={Baby1}
+                  src='https://png.pngtree.com/png-clipart/20230518/original/pngtree-elderly-cute-vector-png-image_9164333.png'
                   alt="Happy Baby"
                   className="w-full h-full object-cover"
                   style={{ filter: 'brightness(1.1) contrast(1.05)' }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-rose-900/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-sky-900/20 to-transparent" />
               </motion.div>
             </motion.div>
 
@@ -578,7 +590,7 @@ const BabyHealthLanding = () => {
                   border: '2px solid rgba(255,255,255,0.3)',
                 }}
               >
-                <img src={toy} alt="Toy" className="w-full h-full object-cover" />
+                <img src='https://png.pngtree.com/png-clipart/20250308/original/pngtree-3d-medicine-bottle-with-spilled-capsules-icon-png-image_20599560.png' alt="Toy" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
 
@@ -600,7 +612,7 @@ const BabyHealthLanding = () => {
                   border: '2px solid rgba(255,255,255,0.3)',
                 }}
               >
-                <img src={dot} alt="Dot" className="w-full h-full object-cover" />
+                <img src='https://png.pngtree.com/png-vector/20240124/ourlarge/pngtree-wheel-chair-3d-illustration-png-image_11481669.png' alt="Dot" className="w-full h-full object-cover" />
               </motion.div>
             </motion.div>
           </div>
@@ -608,159 +620,155 @@ const BabyHealthLanding = () => {
       </div>
 
       {/* === SECTION 2: PANTAU PERKEMBANGAN BAYI IDEAL === */}
-      <motion.div
-        className="min-h-screen flex items-center justify-center py-16 sm:py-20 px-4 sm:px-6 md:px-8 bg-white"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
-        id="pantau-perkembangan"
-      >
-        <div className="max-w-7xl w-full">
-          {/* Header */}
-          <motion.div 
-            className="text-center mb-12 sm:mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            data-aos="fade-up"
-          >
-            <motion.h1 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6"
-              style={{ 
-                background: 'linear-gradient(135deg, #800020 0%, #be123c 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
-            >
-              Pantau Perkembangan <span className="text-rose-900">Bayi Ideal</span>
-            </motion.h1>
-            <motion.p 
-              className="text-gray-700 text-base sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed px-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              data-aos="fade-up"
-            >
-              Pantau perkembangan bayi dengan panduan ini untuk memahami tahapan penting seperti fisik, motorik, dan bahasa. Dapatkan informasi dan tips untuk mendukung pertumbuhan bayi di setiap tahap usianya.
-            </motion.p>
-          </motion.div>
-
-          {/* Chart Container */}
-          <motion.div
-            className="relative bg-white rounded-3xl shadow-3xl p-12 sm:p-8 md:p-12 overflow-hidden"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            data-aos="zoom-in"
-            style={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #fff5f7 100%)',
-              boxShadow: '0 20px 60px rgba(190, 18, 60, 0.15)'
-            }}
-          >
-            {/* Decorative Elements */}
-            <motion.div
-              className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 bg-rose-100 rounded-full opacity-30 blur-3xl"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3]
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            <motion.div
-              className="absolute bottom-0 left-0 w-40 h-40 sm:w-56 sm:h-56 bg-rose-200 rounded-full opacity-20 blur-3xl"
-              animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.2, 0.4, 0.2]
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-
-            {/* Chart */}
-            <div className="relative z-10 h-[400px] sm:h-[500px] md:h-[600px]">
-              <AnimatedGrowthChart />
-            </div>
-
-            {/* Bottom Info */}
-            <motion.div
-              className="mt-8 text-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <p className="text-gray-600 text-sm sm:text-base">
-                <span className="font-semibold text-rose-900">Grafik di atas</span> menunjukkan tinggi badan ideal bayi berdasarkan berat badan. Konsultasikan dengan dokter untuk informasi lebih lanjut.
-              </p>
-            </motion.div>
-          </motion.div>
-
-         {/* Additional Info Cards */}
-<motion.div
-  className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8"
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
+     <motion.div
+  className="min-h-screen flex items-center justify-center py-16 sm:py-20 px-4 sm:px-6 md:px-8 bg-white"
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
   viewport={{ once: true }}
-  transition={{ duration: 0.8, delay: 0.2 }}
+  transition={{ duration: 1 }}
+  id="pantau-perkembangan"
 >
-  {[
-    {
-      icon: chart,
-      title: "Pemantauan Rutin",
-      desc: "Pantau pertumbuhan bayi setiap bulan untuk mendeteksi dini masalah perkembangan",
-    },
-    {
-      icon: nutrisi,
-      title: "Nutrisi Optimal",
-      desc: "Pastikan asupan gizi seimbang sesuai usia untuk mendukung pertumbuhan ideal",
-    },
-    {
-      icon: dokter,
-      title: "Konsultasi Dokter",
-      desc: "Rutin berkonsultasi dengan dokter anak untuk evaluasi perkembangan bayi",
-    },
-  ].map((card, index) => (
-    <motion.div
-      key={index}
-      className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow"
-      initial={{ opacity: 0, y: 20 }}
+  <div className="max-w-7xl w-full">
+    {/* Header */}
+    <motion.div 
+      className="text-center mb-12 sm:mb-16"
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -5 }}
+      transition={{ duration: 0.8 }}
       data-aos="fade-up"
-      data-aos-delay={index * 100}
-      style={{
-        background: "linear-gradient(135deg, #ffffff 0%, #fff1f2 100%)",
-        border: "1px solid rgba(190, 18, 60, 0.1)",
-      }}
-      
     >
-      <img
-        src={card.icon}
-        alt={card.title}
-        className="w-20 h-20 object-contain mb-4 "
+      <motion.h1 
+        className="text-3xl text-sky-500 sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6"
+        style={{ 
+          fontFamily: "'Satoshi', sans-serif",
+        }}
+      >
+        Pantau Perkembangan <span className="text-sky-500">Anak Usia 7–10 Tahun</span>
+      </motion.h1>
+      <motion.p 
+        className="text-gray-700 text-base sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed px-4"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        data-aos="fade-up"
+      >
+        Dukung tumbuh kembang anak usia 7–10 tahun dengan pemantauan berkala. Kenali tahapan penting dalam perkembangan kognitif, sosial, emosional, dan akademik agar anak tumbuh menjadi pribadi yang percaya diri dan cerdas.
+      </motion.p>
+    </motion.div>
+
+    {/* Chart Container */}
+    <motion.div
+      className="relative bg-white rounded-3xl shadow-3xl p-12 sm:p-8 md:p-12 overflow-hidden"
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+      data-aos="zoom-in"
+      style={{
+        fontFamily: "'Satoshi', sans-serif",
+        background: 'linear-gradient(135deg, #ffffff 0%, #fff5f7 100%)',
+        boxShadow: '0 20px 60px rgba(190, 18, 60, 0.15)'
+      }}
+    >
+      {/* Decorative Elements */}
+      <motion.div
+        className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 bg-sky-100 rounded-full opacity-30 blur-3xl"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3]
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      <motion.div
+        className="absolute bottom-0 left-0 w-40 h-40 sm:w-56 sm:h-56 bg-sky-200 rounded-full opacity-20 blur-3xl"
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.2, 0.4, 0.2]
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
       />
 
-      <h3 className="text-xl font-bold text-rose-900 mb-2">{card.title}</h3>
-      <p className="text-gray-600 text-sm">{card.desc}</p>
-    </motion.div>
-  ))}
-</motion.div>
-        </div>
+      {/* Chart Placeholder (Gantilah dengan komponen grafikmu) */}
+      <div className="relative z-10 h-[400px] sm:h-[500px] md:h-[600px]">
+        <AnimatedGrowthChart />
+      </div>
+
+      {/* Bottom Info — Disesuaikan untuk Usia 7–10 Tahun */}
+      <motion.div
+        className="mt-8 text-center"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+      >
+        <p className="text-gray-600 text-sm sm:text-base">
+          <span className="font-semibold text-sky-900">Grafik di atas</span> menunjukkan tahapan pertumbuhan tinggi dan berat badan ideal anak usia 7–10 tahun. Gunakan sebagai referensi untuk menilai pertumbuhan anak secara menyeluruh bersama dokter atau guru.
+        </p>
       </motion.div>
+    </motion.div>
+
+    {/* Additional Info Cards — Disesuaikan untuk Usia 7–10 Tahun */}
+    <motion.div
+      className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+    >
+      {[
+        {
+          icon: chart,
+          title: "Evaluasi Akademik",
+          desc: "Pantau perkembangan belajar anak di sekolah. Bantu mereka mengatasi kesulitan belajar dan dorong rasa ingin tahu.",
+        },
+        {
+          icon: nutrisi,
+          title: "Gizi Seimbang",
+          desc: "Pastikan anak mendapat asupan gizi lengkap. Perbanyak protein, sayur, buah, dan hindari makanan tinggi gula serta pengawet.",
+        },
+        {
+          icon: dokter,
+          title: "Kesehatan & Imunisasi",
+          desc: "Lanjutkan imunisasi dasar lengkap dan jaga kesehatan gigi serta mata. Lakukan pemeriksaan rutin ke dokter anak.",
+        },
+      ].map((card, index) => (
+        <motion.div
+          key={index}
+          className="rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow bg-sky-100 cursor-pointer"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: index * 0.1 }}
+          whileHover={{ y: -5 }}
+          data-aos="fade-up"
+          data-aos-delay={index * 100}
+          style={{
+            border: "1px solid rgba(190, 18, 60, 0.1)",
+          }}
+        >
+          <img
+            src={card.icon}
+            alt={card.title}
+            className="w-20 h-20 object-contain mb-4 mx-auto"
+          />
+
+          <h3 className="text-xl font-bold text-sky-900 mb-2 text-center">{card.title}</h3>
+          <p className="text-gray-600 text-sm text-center">{card.desc}</p>
+        </motion.div>
+      ))}
+    </motion.div>
+  </div>
+</motion.div>
 
       {/* === SECTION 3: GIZI BAYI TERCUKUPI === */}
       <motion.div
@@ -783,25 +791,25 @@ const BabyHealthLanding = () => {
           >
             <div className="space-y-3 sm:space-y-4">
               <motion.h1 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-rose-900"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-sky-900"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 data-aos="fade-up"
+                
               >
-                Gizi Bayi <span className="text-rose-900">Tercukupi</span>
+                Gizi Lansia <span className="text-sky-900">Tercukupi</span>
               </motion.h1>
               <motion.p 
-                className="text-rose-900 text-sm sm:text-base md:text-lg leading-relaxed"
+                className="text-sky-900 text-sm sm:text-base md:text-lg leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.4 }}
                 data-aos="fade-up"
               >
-                Pastikan bayi mendapat nutrisi optimal dengan rencana ASI yang tepat. 
-                Temukan tips untuk menjadikan proses menyusui lebih lancar dan nyaman.
+                Pastikan lansia mendapatkan asupan nutrisi yang sesuai kebutuhan usia lanjut. Perhatikan kecukupan protein, serat, cairan, serta vitamin untuk menjaga kesehatan tubuh dan kekuatan otot. Temukan tips untuk membantu lansia tetap makan dengan nyaman, termasuk memilih tekstur makanan yang ramah untuk pencernaan dan mudah dikunyah.
               </motion.p>
             </div>
 
@@ -811,6 +819,8 @@ const BabyHealthLanding = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.6 }}
+               onMouseEnter={(e) => e.preventDefault()} // disable hover
+        onMouseLeave={(e) => e.preventDefault()} // disable hover
             >
               {accordionData.map((item, index) => (
                 <div key={index} data-aos="fade-up" data-aos-delay={index * 100}>
@@ -818,6 +828,7 @@ const BabyHealthLanding = () => {
                     title={item.title}
                     isOpen={openIndex === index}
                     onClick={() => toggleAccordion(index)}
+                   
                   >
                     {item.content}
                   </AccordionItem>
@@ -864,7 +875,7 @@ const BabyHealthLanding = () => {
       {/* === SVG PEMBATAS === */}
       <div className="w-full h-full pointer-events-none overflow-hidden relative" data-aos="fade">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-full">
-          <path fill="#800020" fillOpacity="1" d="M0,96L20,90.7C40,85,80,75,120,64C160,53,200,43,240,37.3C280,32,320,32,360,64C400,96,440,160,480,170.7C520,181,560,139,600,106.7C640,75,680,53,720,85.3C760,117,800,203,840,218.7C880,235,920,181,960,170.7C1000,160,1040,192,1080,192C1120,192,1160,160,1200,160C1240,160,1280,192,1320,170.7C1360,149,1400,75,1420,37.3L1440,0L1440,320L1420,320C1400,320,1360,320,1320,320C1280,320,1240,320,1200,320C1160,320,1120,320,1080,320C1040,320,1000,320,960,320C920,320,880,320,840,320C800,320,760,320,720,320C680,320,640,320,600,320C560,320,520,320,480,320C440,320,400,320,360,320C320,320,280,320,240,320C200,320,160,320,120,320C80,320,40,320,20,320L0,320Z"></path>
+          <path fill="#87ceeb" fillOpacity="1" d="M0,96L20,90.7C40,85,80,75,120,64C160,53,200,43,240,37.3C280,32,320,32,360,64C400,96,440,160,480,170.7C520,181,560,139,600,106.7C640,75,680,53,720,85.3C760,117,800,203,840,218.7C880,235,920,181,960,170.7C1000,160,1040,192,1080,192C1120,192,1160,160,1200,160C1240,160,1280,192,1320,170.7C1360,149,1400,75,1420,37.3L1440,0L1440,320L1420,320C1400,320,1360,320,1320,320C1280,320,1240,320,1200,320C1160,320,1120,320,1080,320C1040,320,1000,320,960,320C920,320,880,320,840,320C800,320,760,320,720,320C680,320,640,320,600,320C560,320,520,320,480,320C440,320,400,320,360,320C320,320,280,320,240,320C200,320,160,320,120,320C80,320,40,320,20,320L0,320Z"></path>
         </svg>
       </div>
 
@@ -872,7 +883,7 @@ const BabyHealthLanding = () => {
       <motion.div 
         className="relative min-h-screen py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-8 overflow-hidden"
         style={{
-          background: 'linear-gradient(180deg, #800020 0%, #800020 100%)'
+          background: 'linear-gradient(180deg, #87ceeb 0%, #87ceeb 100%)'
         }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -1040,7 +1051,7 @@ const BabyHealthLanding = () => {
                 />
                 
                 <img
-                  src={bayi}
+                  src='https://png.pngtree.com/png-clipart/20220926/ourmid/pngtree-nursing-home-nursing-home-elderly-seniors-flat-png-image_6155857.png'
                   alt="Happy Kid"
                   className="relative w-full h-full object-contain drop-shadow-2xl rounded-3xl"
                   style={{
@@ -1056,7 +1067,7 @@ const BabyHealthLanding = () => {
       <div className="w-full h-full pointer-events-none overflow-hidden relative" data-aos="fade">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-full">
           <path
-            fill="#800020"
+            fill="#87ceeb"
             fillOpacity="1"
             transform="scale(1, -1) translate(0, -320)"
             d="M0,96L20,90.7C40,85,80,75,120,64C160,53,200,43,240,37.3C280,32,320,32,360,64C400,96,440,160,480,170.7C520,181,560,139,600,106.7C640,75,680,53,720,85.3C760,117,800,203,840,218.7C880,235,920,181,960,170.7C1000,160,1040,192,1080,192C1120,192,1160,160,1200,160C1240,160,1280,192,1320,170.7C1360,149,1400,75,1420,37.3L1440,0L1440,320L1420,320C1400,320,1360,320,1320,320C1280,320,1240,320,1200,320C1160,320,1120,320,1080,320C1040,320,1000,320,960,320C920,320,880,320,840,320C800,320,760,320,720,320C680,320,640,320,600,320C560,320,520,320,480,320C440,320,400,320,360,320C320,320,280,320,240,320C200,320,160,320,120,320C80,320,40,320,20,320L0,320Z"

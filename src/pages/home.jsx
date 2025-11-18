@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ChevronDown } from 'lucide-react';
+import { Search, ChevronDown, User, Linkedin, Twitter, Mail,Instagram } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/navbar';
 import tirta from '../assets/images/tirta.png';
 import home from '../assets/images/home.png';
+import filthan from '../assets/images/filthan.jpg';
+import haikal from '../assets/images/haikal.jpg';
+import revand from '../assets/images/revand.jpeg';
 
 function MainContent() {
   const navigate = useNavigate();
@@ -82,12 +85,12 @@ function MainContent() {
 
   return (
   
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-red-50 overflow-hidden " id='home'>
+    <div className="min-h-screen overflow-hidden bg-gradient-to-b from-rose-100 to-white   " id='home'>
       {/* Navbar */}
       <Navbar />
 
       {/* Hero Section */}
-      <div className="relative px-8 py-12 pt-32 max-w-7xl mx-auto">
+      <div className="relative px-8 py-12 pt-32 max-w-7xl mx-auto ">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="relative z-10 text-center md:text-left">
@@ -104,7 +107,7 @@ function MainContent() {
                   transition={{ delay: 0.4, duration: 0.6 }}
                   style={{ color: '#800020', display: 'inline-block' }}
                 >
-                  One Step Solution
+                 Solusi Satu Langkah
                 </motion.span>
                 <br />
                 <motion.span 
@@ -114,7 +117,7 @@ function MainContent() {
                   className="text-gray-900"
                   style={{ display: 'inline-block' }}
                 >
-                  for all your dietary
+                 Untuk Semua Kebutuhan Kesehatan 
                 </motion.span>
                 <br />
                 <motion.span 
@@ -124,7 +127,7 @@ function MainContent() {
                   className="text-gray-900"
                   style={{ display: 'inline-block' }}
                 >
-                  needs.
+                 Anda.
                 </motion.span>
               </h2>
             </motion.div>
@@ -402,7 +405,7 @@ function MainContent() {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.8 }}
-        className="relative px-8 pb-16 max-w-5xl mx-auto"
+        className="relative px-8 pb-16 max-w-5xl mx-auto "
       >
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-left">
           {/* Doctor Image */}
@@ -468,15 +471,15 @@ function MainContent() {
   );
 }
 
-// Halaman About
+// About Page
 function AboutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-red-50">
+    <div className="min-h-screen bg-gradient-to-b from-rose-90 to-white overflow-hidden">
       {/* Navbar */}
       <Navbar />
       
       {/* Content */}
-      <div className="pt-32 px-8">
+      <div className="pt-32 px-8 pb-16">
         <div className="max-w-4xl mx-auto">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -484,7 +487,7 @@ function AboutPage() {
             className="text-5xl font-bold mb-8"
             style={{ fontFamily: 'Chetta, sans-serif', color: '#800020' }}
           >
-            About HealthyMe
+            Apa itu HealthyCare?
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -493,17 +496,132 @@ function AboutPage() {
             className="text-lg text-gray-700 mb-6"
             style={{ fontFamily: 'Satoshi, sans-serif' }}
           >
-            HealthyMe is your comprehensive dietary companion, designed to help you make informed nutritional choices based on your BMI and health goals.
+            HealthyCare Adalah Sebuah Platform Web yang Berfokus pada Penyediaan Informasi Nutrisi, Penyakit Yang Sedang Marak dan Rekomendasi Makanan Sehat Berdasarkan Kebutuhan Gizi Pengguna Dan Berdasarkan Kategori Baik Muda-Tua.
           </motion.p>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-lg text-gray-700"
+            className="text-lg text-gray-700 mb-16"
             style={{ fontFamily: 'Satoshi, sans-serif' }}
           >
-            Our platform combines expert nutritional advice with personalized recommendations to support your journey towards better health.
+            Kami Juga Menyediakan Beberapa Studi Kasus Terkait Penyakit Yang Sedang Booming Akhir Akhir Ini Agar Pengguna Dapat Lebih Waspada Terhadap Penyakit Tersebut. Tim Kami Terdiri Dari Profesional Di Bidangnya, Termasuk Programmer, Desainer, Dan 3D Artist, Editor, Yang Bekerja Sama Untuk Memberikan Pengalaman Terbaik Bagi Pengguna Kami.
           </motion.p>
+
+          {/* Team Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <h2 
+              className="text-4xl font-bold mb-12 text-center"
+              style={{ fontFamily: 'Chetta, sans-serif', color: '#800020' }}
+            >
+              Meet Our Team
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+              {/* Team Member 1 */}
+              <motion.div
+                whileHover={{ y: -10 }}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden"
+              >
+                <div className="h-64 bg-gradient-to-br from-pink-200 to-red-200 flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={haikal}
+                    alt="Muhammad Haikal Rasyaputra"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold mb-2" style={{ fontFamily: 'Satoshi, sans-serif', color: '#800020' }}>
+                    Muhammad Haikal Rasyaputra
+                  </h3>
+                  <p className="text-gray-600 mb-4" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+                    Leader & Programmer
+                  </p>
+                  <div className="flex gap-4">
+                    <a href="#" className="text-pink-800 hover:text-rose-800 transition-colors">
+                      <Instagram className="w-5 h-5" />
+                    </a>
+                    <a href="#" className="text-pink-800 hover:text-rose-800 transition-colors">
+                      <Twitter className="w-5 h-5" />
+                    </a>
+                    <a href="#" className="text-pink-800 hover:text-rose-800 transition-colors">
+                      <Mail className="w-5 h-5" />
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Team Member 2 */}
+              <motion.div
+                whileHover={{ y: -10 }}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden"
+              >
+                <div className="h-64 bg-gradient-to-br from-red-200 to-pink-200 flex items-center justify-center overflow-hidden">
+                  <img 
+                    src= {filthan}
+                    alt="Filthan Demiant"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold mb-2" style={{ fontFamily: 'Satoshi, sans-serif', color: '#800020' }}>
+                    Filthan Demiant
+                  </h3>
+                  <p className="text-gray-600 mb-4" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+                    Designer & Editor
+                  </p>
+                  <div className="flex gap-4">
+                    <a href="#" className="text-pink-800 hover:text-pink-800 transition-colors">
+                      <Linkedin className="w-5 h-5" />
+                    </a>
+                    <a href="#" className="text-pink-800 hover:text-pink-800 transition-colors">
+                      <Twitter className="w-5 h-5" />
+                    </a>
+                    <a href="#" className="text-pink-800 hover:text-pink-800 transition-colors">
+                      <Mail className="w-5 h-5" />
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Team Member 3 */}
+              <motion.div
+                whileHover={{ y: -10 }}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden"
+              >
+                <div className="h-64 bg-gradient-to-br from-pink-200 to-red-200 flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={revand}
+                    alt="Muhammad Revand Fahlevi"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-2xl font-semibold mb-2" style={{ fontFamily: 'Satoshi, sans-serif', color: '#800020' }}>
+                    Muhammad Revand Fahlevi
+                  </h3>
+                  <p className="text-gray-600 mb-4" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+                    3D Artist & Editor
+                  </p>
+                  <div className="flex gap-4">
+                    <a href="#" className="text-pink-800 hover:text-pink-800 transition-colors">
+                      <Linkedin className="w-5 h-5" />
+                    </a>
+                    <a href="#" className="text-pink-800 hover:text-pink-800 transition-colors">
+                      <Twitter className="w-5 h-5" />
+                    </a>
+                    <a href="#" className="text-pink-800 hover:text-pink-800 transition-colors">
+                      <Mail className="w-5 h-5" />
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </div>

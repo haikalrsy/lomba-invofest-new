@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Menu, X } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import AidImage from '../assets/images/aid.png';
 
 export default function Navbar() {
+  const location = useLocation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState('/');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,11 +35,19 @@ export default function Navbar() {
     { name: 'Lansia', path: '/kategori/lansia' }
   ];
 
-  const handleLinkClick = (path) => {
-    setActiveLink(path);
+  const handleLinkClick = () => {
     setMobileMenuOpen(false);
     setDropdownOpen(false);
   };
+
+  // Cek apakah di halaman home
+  const isHome = location.pathname === '/';
+  
+  // Cek apakah di halaman about
+  const isAbout = location.pathname === '/about';
+  
+  // Cek apakah di halaman kategori
+  const isKategori = location.pathname.startsWith('/kategori/');
 
   return (
     <>
@@ -81,7 +90,7 @@ export default function Navbar() {
               className="text-2xl sm:text-2xl lg:text-3xl font-bold text-center"
               style={{ color: '#800020', fontFamily: 'Chetta, sans-serif' }}
             >
-              HealthyMe
+              HealthyCare
             </h1>
             <img
               src={AidImage}
@@ -98,9 +107,9 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-6 xl:gap-8 right-10 text-center">
             <a
               href="/"
-              onClick={() => handleLinkClick('/')}
+              onClick={handleLinkClick}
               className={`font-medium transition-all duration-300 ${
-                activeLink === '/' ? 'text-[#800020]' : 'text-gray-700 hover:text-gray-900'
+                isHome ? 'text-[#800020] font-semibold' : 'text-gray-700 hover:text-gray-900'
               }`}
               style={{
                 transition: 'transform 0.3s ease'
@@ -113,9 +122,9 @@ export default function Navbar() {
             
             <a
               href="/about"
-              onClick={() => handleLinkClick('/about')}
+              onClick={handleLinkClick}
               className={`font-medium transition-all duration-300 ${
-                activeLink === '/about' ? 'text-[#800020]' : 'text-gray-700 hover:text-gray-900'
+                isAbout ? 'text-[#800020] font-semibold' : 'text-gray-700 hover:text-gray-900'
               }`}
               style={{
                 transition: 'transform 0.3s ease'
@@ -130,7 +139,9 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium transition-all duration-300"
+                className={`flex items-center gap-2 font-medium transition-all duration-300 ${
+                  isKategori ? 'text-[#800020] font-semibold' : 'text-gray-700 hover:text-gray-900'
+                }`}
                 style={{
                   transition: 'transform 0.3s ease'
                 }}
@@ -158,8 +169,12 @@ export default function Navbar() {
                     <a
                       key={category.name}
                       href={category.path}
-                      onClick={() => handleLinkClick(category.path)}
-                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-gray-900 transition-all duration-200"
+                      onClick={handleLinkClick}
+                      className={`block w-full text-left px-4 py-2 transition-all duration-200 ${
+                        location.pathname === category.path
+                          ? 'bg-pink-50 text-[#800020] font-semibold'
+                          : 'text-gray-700 hover:bg-pink-50 hover:text-gray-900'
+                      }`}
                       style={{
                         animation: `slideIn 0.2s ease-out ${index * 0.05}s backwards`,
                         transition: 'all 0.2s ease'
@@ -239,9 +254,9 @@ export default function Navbar() {
           <div className="space-y-1">
             <a
               href="/"
-              onClick={() => handleLinkClick('/')}
+              onClick={handleLinkClick}
               className={`block px-4 py-3 rounded-lg font-medium transition-all ${
-                activeLink === '/' 
+                isHome
                   ? 'bg-[#800020] text-white' 
                   : 'text-gray-700 hover:bg-gray-100'
               }`}
@@ -251,9 +266,9 @@ export default function Navbar() {
             
             <a
               href="/about"
-              onClick={() => handleLinkClick('/about')}
+              onClick={handleLinkClick}
               className={`block px-4 py-3 rounded-lg font-medium transition-all ${
-                activeLink === '/about' 
+                isAbout
                   ? 'bg-[#800020] text-white' 
                   : 'text-gray-700 hover:bg-gray-100'
               }`}
@@ -266,7 +281,11 @@ export default function Navbar() {
           <div>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center justify-between w-full px-4 py-3 text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition-all"
+              className={`flex items-center justify-between w-full px-4 py-3 font-medium rounded-lg transition-all ${
+                isKategori
+                  ? 'bg-pink-50 text-[#800020]'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
             >
               Kategori
               <ChevronDown 
@@ -287,10 +306,10 @@ export default function Navbar() {
                   <a
                     key={category.name}
                     href={category.path}
-                    onClick={() => handleLinkClick(category.path)}
+                    onClick={handleLinkClick}
                     className={`block px-4 py-2 rounded-lg text-sm transition-all ${
-                      activeLink === category.path
-                        ? 'bg-pink-100 text-[#800020]'
+                      location.pathname === category.path
+                        ? 'bg-pink-100 text-[#800020] font-semibold'
                         : 'text-gray-600 hover:bg-gray-100'
                     }`}
                   >

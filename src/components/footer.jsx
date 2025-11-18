@@ -70,7 +70,7 @@ const Footer = () => {
   };
 
   return (
-    <div className="relative mt-10 sm:mt-16 md:mt-20 overflow-hidden  ">
+    <div className="relative mt-10 sm:mt-16 md:mt-20 overflow-hidden">
       {/* Animated Background Shapes */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
@@ -272,7 +272,7 @@ const Footer = () => {
                 <ul className="space-y-1.5 sm:space-y-2 text-sm sm:text-base" style={{ fontFamily: 'Satoshi, sans-serif' }}>
                   {[
                     { name: 'SMK Negeri 46 Jakarta', path: '/contact' },
-                    { name: 'HealthySelf', path: '/contact' }
+                    { name: 'HealthyCare', path: '/contact' }
                   ].map((item, index) => (
                     <motion.li
                       key={item.name}
@@ -402,7 +402,7 @@ const Footer = () => {
                 ease: "easeInOut"
               }}
             >
-              © 2024 HealthyMe. All rights reserved.
+              © 2024 HealthyCare. All rights reserved.
             </motion.p>
           </motion.div>
         </div>

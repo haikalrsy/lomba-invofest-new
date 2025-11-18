@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig({
+   base: '/lomba-invofest-new/',
   plugins: [react()],
   resolve: {
     alias: {
